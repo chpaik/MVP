@@ -14,13 +14,14 @@ const App = () => {
   const [byDate, setByDate] = useState(new Date());
   const [targetDays, setTargetDays] = useState(0);
   const [minDays, setMinDays] = useState(0);
+  const [dailyCalories, setDailyCalories] = useState(0);
 
   useEffect( () => {
     const minCalorieDeficit = 800;
     const caloriesTolose = (currentWeight - goalWeight) * LB_TO_CALORIES;
     const minDaysToLoseSafely = Math.ceil(caloriesTolose / minCalorieDeficit);
     setMinDays(minDaysToLoseSafely);
-  }, [currentWeight, goalWeight])
+  }, [currentWeight, goalWeight, dailyCalories])
 
   const getMealData = (calories) => {
     axios.get(`/meals/${calories}`)
@@ -45,7 +46,7 @@ const App = () => {
     if ( dailyAllowedCalories < 1200 ) {
       alert('Danger: daily caloric intake too low');
     } else {
-      getMealData(dailyAllowedCalories);
+      getMealData(Math.round(dailyAllowedCalories));
     }
   }
 
@@ -58,6 +59,7 @@ const App = () => {
       alert('Please enter your current weight and goal weight');
     }
     dailyCalories = 2000 - (totalCaloriesToLose / targetDays);
+    setDailyCalories(dailyCalories);
     return dailyCalories;
   }
 
@@ -94,7 +96,14 @@ const App = () => {
           {minDays > 0 && displayCalendar()}
           <button className='getMeals' onClick={initMealPlan}>Get Meals</button>
         </section>
-        {/* <button onClick={initMealPlan}>Get Meals</button> */}
+        {dailyCalories > 0 &&
+          <section>
+            <ul>
+              <li>Daily Calories: {Math.round(dailyCalories)}</li>
+              <li>Days: {targetDays}</li>
+            </ul>
+          </section>
+        }
       </div>
       {mealData && <MealList mealData={mealData}/>}
     </>

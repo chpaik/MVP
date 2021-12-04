@@ -3,6 +3,7 @@ import axios from 'axios';
 import {TOKEN} from '../../../config.js';
 
 const Meal = ({meal}) => {
+  console.log('Meal', meal);
   const [imageURL, setImageURL] = useState('');
 
   useEffect( () => {
@@ -20,7 +21,7 @@ const Meal = ({meal}) => {
       <h1>{meal.title}</h1>
       <img src={imageURL} alt='recipe' />
       <ul className='instructions'>
-        <li>Preparation time: {meal.readyInMinutes}</li>
+        <li>Preparation time: {meal.readyInMinutes} minutes</li>
         <li>Number of servings: {meal.servings}</li>
       </ul>
       <a href={meal.sourceUrl}>Go to recipe</a>

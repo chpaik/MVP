@@ -7,9 +7,11 @@ const controller = {
     const calories = req.params.calories;
     axios.get(`https://api.spoonacular.com/mealplanner/generate?apiKey=${TOKEN}&timeFrame=day&targetCalories=${calories}`)
       .then( response => {
+        console.log('response', response.data);
         res.status(200).send(response.data);
       })
       .catch( err => {
+        console.log(err);
         res.status(404).send(err);
       })
   },
