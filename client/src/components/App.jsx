@@ -16,9 +16,9 @@ const App = () => {
   const [minDays, setMinDays] = useState(0);
 
   useEffect( () => {
-    const minCalories = 1200;
+    const minCalorieDeficit = 800;
     const caloriesTolose = (currentWeight - goalWeight) * LB_TO_CALORIES;
-    const minDaysToLoseSafely = Math.ceil(caloriesTolose / minCalories);
+    const minDaysToLoseSafely = Math.ceil(caloriesTolose / minCalorieDeficit);
     setMinDays(minDaysToLoseSafely);
   }, [currentWeight, goalWeight])
 
@@ -42,7 +42,7 @@ const App = () => {
 
   const initMealPlan = () => {
     var dailyAllowedCalories = getDailyCalories();
-    if ( dailyAllowedCalories < 800 ) {
+    if ( dailyAllowedCalories < 1200 ) {
       alert('Danger: daily caloric intake too low');
     } else {
       console.log('daily calries', dailyAllowedCalories);
@@ -53,18 +53,18 @@ const App = () => {
   const getDailyCalories = () => {
     var totalCaloriesToLose = 0;
     var dailyCalories = 0;
-    if ( currentWeight !== 0 && goalWeight !== 0 ) {
+    if ( currentWeight !== 0 && goalWeight > 0 ) {
       totalCaloriesToLose = (currentWeight - goalWeight) * LB_TO_CALORIES;
     } else {
       alert('Please enter your current weight and goal weight');
     }
-    dailyCalories = 2000 - (totalCaloriesToLose / targetDays);
+    dailyCalories = 2000- (totalCaloriesToLose / targetDays);
     return dailyCalories;
   }
 
   const onDateChange = (newDate) => {
     var day = 24 * 60 * 60 * 1000;
-    var numDays = (Math.ceil((newDate - byDate) / day));
+    var numDays = (Math.ceil((newDate - byDate) / day) - 1);
     setTargetDays(numDays);
   }
 
@@ -90,13 +90,6 @@ const App = () => {
           <input type='number' placeholder='Current Weight' onChange={handleCurrentWeightChange} />
           <input type='number' placeholder='Goal Weight' onChange={handleGoalWeightChange} />
           {minDays > 0 && displayCalendar()}
-          {/* <Calendar
-            onChange={onDateChange}
-            value={byDate}
-            showNeighboringMonth={true}
-            locale={'en-US'}
-            minDate={currentDate}
-          /> */}
         </section>
         <button onClick={initMealPlan}>Get Meals</button>
       </div>
