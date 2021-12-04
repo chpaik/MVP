@@ -45,7 +45,6 @@ const App = () => {
     if ( dailyAllowedCalories < 1200 ) {
       alert('Danger: daily caloric intake too low');
     } else {
-      console.log('daily calries', dailyAllowedCalories);
       getMealData(dailyAllowedCalories);
     }
   }
@@ -58,13 +57,15 @@ const App = () => {
     } else {
       alert('Please enter your current weight and goal weight');
     }
-    dailyCalories = 2000- (totalCaloriesToLose / targetDays);
+    console.log('calories to lose', totalCaloriesToLose);
+    console.log('days', targetDays);
+    dailyCalories = 2000 - (totalCaloriesToLose / targetDays);
     return dailyCalories;
   }
 
   const onDateChange = (newDate) => {
     var day = 24 * 60 * 60 * 1000;
-    var numDays = (Math.ceil((newDate - byDate) / day) - 1);
+    var numDays = (Math.ceil((newDate - byDate) / day));
     setTargetDays(numDays);
   }
 
@@ -84,7 +85,7 @@ const App = () => {
 
   return (
     <>
-      <div id='Title'>Healthful</div>
+      <div id='Title'>WHAT SHOULD I EAT TODAY</div>
       <div className='App'>
         <section className='goals'>
           <input type='number' placeholder='Current Weight' onChange={handleCurrentWeightChange} />
