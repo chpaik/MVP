@@ -57,8 +57,6 @@ const App = () => {
     } else {
       alert('Please enter your current weight and goal weight');
     }
-    console.log('calories to lose', totalCaloriesToLose);
-    console.log('days', targetDays);
     dailyCalories = 2000 - (totalCaloriesToLose / targetDays);
     return dailyCalories;
   }
@@ -74,6 +72,7 @@ const App = () => {
     minDate.setDate(minDate.getDate() + minDays);
     return (
       <Calendar
+        className='calendar'
         onChange={onDateChange}
         value={byDate}
         showNeighboringMonth={true}
@@ -88,11 +87,14 @@ const App = () => {
       <div id='Title'>WHAT SHOULD I EAT TODAY</div>
       <div className='App'>
         <section className='goals'>
-          <input type='number' placeholder='Current Weight' onChange={handleCurrentWeightChange} />
-          <input type='number' placeholder='Goal Weight' onChange={handleGoalWeightChange} />
+          <label>Current Weight</label>
+          <input type='number' placeholder='Enter current weight in lbs' onChange={handleCurrentWeightChange} />
+          <label>Goal Weight</label>
+          <input type='number' placeholder='Enter goal weight in lbs' onChange={handleGoalWeightChange} />
           {minDays > 0 && displayCalendar()}
+          <button className='getMeals' onClick={initMealPlan}>Get Meals</button>
         </section>
-        <button onClick={initMealPlan}>Get Meals</button>
+        {/* <button onClick={initMealPlan}>Get Meals</button> */}
       </div>
       {mealData && <MealList mealData={mealData}/>}
     </>
