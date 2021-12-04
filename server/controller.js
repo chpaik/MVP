@@ -3,7 +3,9 @@ const axios = require('axios');
 
 const controller = {
   getMeals: (req, res) => {
-    axios.get(`https://api.spoonacular.com/mealplanner/generate?apiKey=${TOKEN}&timeFrame=day&targetCalories=2000`)
+    console.log('request', req.params);
+    const calories = req.params.calories;
+    axios.get(`https://api.spoonacular.com/mealplanner/generate?apiKey=${TOKEN}&timeFrame=day&targetCalories=${calories}`)
       .then( response => {
         res.status(200).send(response.data);
       })
